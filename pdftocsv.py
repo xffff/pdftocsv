@@ -7,6 +7,8 @@
 import os, csv, fileinput, codecs, re, sys
 from bs4 import BeautifulSoup
 
+fileDicts = []
+
 def runVBS(d):
     ''' for some reason I can't use AcroJS from Python, so use VBS '''
     print "Converting all PDF files to XML..."
@@ -19,11 +21,11 @@ def parseFiles(d):
         for file in files:
             if file.endswith(".xml"):
                 print 'Parsing: ', os.path.join(root, file)
+                fileDicts.append(dict())
                 for line in open(os.path.join(d,file), "r"):                    
                     if "<TD>" in line:
                         data = BeautifulSoup(line).get_text().strip().encode('ascii','ignore')
                         fileDicts[fn][keys[count]] = data                        
-                        count += 1
                 fn += 1
 
 def writeOut(d):
@@ -33,7 +35,6 @@ def writeOut(d):
         for k, v in f.items():
             if k in masterDict.keys():
                 masterDict[k].append(v)
-    
     try:
         print "Writing %s offlinefiles.csv" % d
         writer = csv.writer(open(os.path.join(d,'pdfoutput.csv'),'wb'))
