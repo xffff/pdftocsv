@@ -1,4 +1,4 @@
-# file:   formxmlparser.py
+# file:   pdftocsv.py
 # desc:   example of how to grab all data from a 
 #         number of PDF forms using Python and VBS
 #         and output to something readable (CSV)
